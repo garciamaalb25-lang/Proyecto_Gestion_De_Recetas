@@ -1,0 +1,22 @@
+package com.gestion_de_recetas.dto;
+
+import com.gestion_de_recetas.model.Categoria;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(name = "EditCategoriaDto", description = "Datos para crear o modificar una categoría")
+public record EditCategoriaDto(
+
+        @Schema(description = "Nombre único de la categoría", example = "Postres")
+        String nombre,
+
+        @Schema(description = "Descripción de la categoría", example = "Dulces y repostería")
+        String descripcion
+) {
+
+    public Categoria to() {
+        return Categoria.builder()
+                .nombre(nombre)
+                .descripcion(descripcion)
+                .build();
+    }
+}
