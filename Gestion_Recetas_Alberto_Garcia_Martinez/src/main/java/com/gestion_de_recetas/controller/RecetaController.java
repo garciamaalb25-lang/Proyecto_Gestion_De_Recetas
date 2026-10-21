@@ -1,5 +1,6 @@
 package com.gestion_de_recetas.controller;
 
+import com.gestion_de_recetas.dto.AddIngredienteDto;
 import com.gestion_de_recetas.dto.EditRecetaDto;
 import com.gestion_de_recetas.dto.GetRecetaDetailDto;
 import com.gestion_de_recetas.dto.GetRecetaListDto;
@@ -38,6 +39,14 @@ public class RecetaController {
     public ResponseEntity<GetRecetaDetailDto> add(@RequestBody EditRecetaDto dto) {
         return ResponseEntity.status(201)
                 .body(GetRecetaDetailDto.of(recetaService.add(dto)));
+    }
+
+    @PostMapping("/{recetaId}/ingredientes")
+    public ResponseEntity<GetRecetaDetailDto> addIngrediente(@PathVariable Long recetaId,
+                                                             @RequestBody AddIngredienteDto dto) {
+        return ResponseEntity.status(201)
+                .body(GetRecetaDetailDto.of(
+                        recetaService.addIngrediente(recetaId, dto.ingredienteId())));
     }
 
     @PutMapping("/{id}")
