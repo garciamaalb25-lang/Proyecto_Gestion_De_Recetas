@@ -1,78 +1,46 @@
-### GET todas las categorías
-GET http://localhost:8080/api/v1/categorias
 
-### GET categoría por id
-GET http://localhost:8080/api/v1/categorias/1
+### GET todos los ingredientes
+GET http://localhost:8080/api/v1/ingredientes
 
-### GET categoría que no existe (404)
-GET http://localhost:8080/api/v1/categorias/999
-
-### POST crear categoría
-POST http://localhost:8080/api/v1/categorias
+### POST crear ingrediente
+POST http://localhost:8080/api/v1/ingredientes
 Content-Type: application/json
 
 {
-  "nombre": "Sopas",
-  "descripcion": "Caldos y cremas"
+  "nombre": "Mantequilla"
 }
 
-### PUT modificar categoría
-PUT http://localhost:8080/api/v1/categorias/1
-Content-Type: application/json
-
-{
-  "nombre": "Postres caseros",
-  "descripcion": "Dulces hechos en casa"
-}
-
-### DELETE borrar categoría
-DELETE http://localhost:8080/api/v1/categorias/3
-
-
-### GET todas las recetas
-GET http://localhost:8080/api/v1/recetas
-
-### GET receta por id
+### GET receta con ingredientes (la 1 trae 3)
 GET http://localhost:8080/api/v1/recetas/1
 
-### GET receta que no existe (404)
-GET http://localhost:8080/api/v1/recetas/999
-
-### GET recetas de una categoría
-GET http://localhost:8080/api/v1/recetas/categoria/1
-
-### POST crear receta
-POST http://localhost:8080/api/v1/recetas
+### POST añadir ingrediente a receta (201)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
 Content-Type: application/json
 
 {
-  "nombre": "Natillas caseras",
-  "tiempoPreparacionMin": 30,
-  "dificultad": "FACIL",
-  "categoriaId": 1
+  "ingredienteId": 1
 }
 
-### POST crear receta con categoría inexistente (404)
-POST http://localhost:8080/api/v1/recetas
+### POST ingrediente ya añadido (409)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
 Content-Type: application/json
 
 {
-  "nombre": "Receta huérfana",
-  "tiempoPreparacionMin": 30,
-  "dificultad": "FACIL",
-  "categoriaId": 999
+  "ingredienteId": 2
 }
 
-### PUT modificar receta
-PUT http://localhost:8080/api/v1/recetas/1
+### POST ingrediente que no existe (404)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
 Content-Type: application/json
 
 {
-  "nombre": "Tarta de queso al horno",
-  "tiempoPreparacionMin": 70,
-  "dificultad": "MEDIA",
-  "categoriaId": 1
+  "ingredienteId": 999
 }
 
-### DELETE borrar receta
-DELETE http://localhost:8080/api/v1/recetas/2
+### POST receta que no existe (404)
+POST http://localhost:8080/api/v1/recetas/999/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 1
+}

@@ -2,13 +2,16 @@ package com.gestion_de_recetas.utils;
 
 import com.gestion_de_recetas.model.Categoria;
 import com.gestion_de_recetas.model.Dificultad;
+import com.gestion_de_recetas.model.Ingrediente;
 import com.gestion_de_recetas.model.Receta;
 import com.gestion_de_recetas.repo.CategoriaRepository;
+import com.gestion_de_recetas.repo.IngredienteRepository;
 import com.gestion_de_recetas.repo.RecetaRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Component
@@ -17,6 +20,7 @@ public class DataSeed {
 
     private final CategoriaRepository categoriaRepository;
     private final RecetaRepository recetaRepository;
+    private final IngredienteRepository ingredienteRepository;
 
     @PostConstruct
     public void initData() {
@@ -30,12 +34,21 @@ public class DataSeed {
 
         categoriaRepository.saveAll(List.of(postres, carnes, ensaladas));
 
+        Ingrediente harina = Ingrediente.builder().nombre("Harina").build();
+        Ingrediente huevo = Ingrediente.builder().nombre("Huevo").build();
+        Ingrediente azucar = Ingrediente.builder().nombre("Azúcar").build();
+        Ingrediente quesoCrema = Ingrediente.builder().nombre("Queso crema").build();
+        Ingrediente leche = Ingrediente.builder().nombre("Leche").build();
+
+        ingredienteRepository.saveAll(List.of(harina, huevo, azucar, quesoCrema, leche));
+
         recetaRepository.saveAll(List.of(
                 Receta.builder()
                         .nombre("Tarta de queso")
                         .tiempoPreparacionMin(60)
                         .dificultad(Dificultad.MEDIA)
                         .categoria(postres)
+                        .ingredientes(new HashSet<>(List.of(huevo, azucar, quesoCrema)))
                         .build(),
                 Receta.builder()
                         .nombre("Flan de huevo")
