@@ -1,0 +1,29 @@
+### GET todas las categorías
+GET http://localhost:8080/api/v1/categorias
+
+### GET categoría por id
+GET http://localhost:8080/api/v1/categorias/1
+
+### GET categoría que no existe (404)
+GET http://localhost:8080/api/v1/categorias/999
+
+### POST crear categoría
+POST http://localhost:8080/api/v1/categorias
+Content-Type: application/json
+
+{
+  "nombre": "Sopas",
+  "descripcion": "Caldos y cremas"
+}
+
+### PUT modificar categoría
+PUT http://localhost:8080/api/v1/categorias/1
+Content-Type: application/json
+
+{
+  "nombre": "Postres caseros",
+  "descripcion": "Dulces hechos en casa"
+}
+
+### DELETE borrar categoría
+DELETE http://localhost:8080/api/v1/categorias/3
