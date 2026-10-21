@@ -20,4 +20,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problem.setType(URI.create("https://example.com/errors/not-found"));
         return problem;
     }
+
+    @ExceptionHandler(IngredienteYaAnadidoException.class)
+    public ProblemDetail handleIngredienteYaAnadido(IngredienteYaAnadidoException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problem.setTitle("Ingrediente ya añadido");
+        problem.setDetail(ex.getMessage());
+        problem.setType(URI.create("https://example.com/errors/ingrediente-ya-anadido"));
+        return problem;
+    }
 }
