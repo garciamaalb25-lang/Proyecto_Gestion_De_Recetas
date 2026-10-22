@@ -2,6 +2,7 @@ package com.gestion_de_recetas.service;
 
 import com.gestion_de_recetas.dto.EditRecetaDto;
 import com.gestion_de_recetas.error.IngredienteYaAnadidoException;
+import com.gestion_de_recetas.error.TiempoInvalidoException;
 import com.gestion_de_recetas.error.notfound.RecetaNoEncontradaException;
 import com.gestion_de_recetas.model.Categoria;
 import com.gestion_de_recetas.model.Ingrediente;
@@ -37,6 +38,7 @@ public class RecetaService {
     }
 
     public Receta add(EditRecetaDto dto) {
+        validarTiempo(dto.tiempoPreparacionMin());
         // La categoría es obligatoria y debe existir
         Categoria categoria = categoriaService.getById(dto.categoriaId());
         Receta receta = dto.to();
@@ -45,6 +47,7 @@ public class RecetaService {
     }
 
     public Receta update(Long id, EditRecetaDto dto) {
+        validarTiempo(dto.tiempoPreparacionMin());
         Receta receta = getById(id);
         Categoria categoria = categoriaService.getById(dto.categoriaId());
         receta.setNombre(dto.nombre());
@@ -71,5 +74,11 @@ public class RecetaService {
 
         receta.getIngredientes().add(ingrediente);
         return recetaRepository.save(receta);
+    }
+
+    private void validarTiempo(Integer tiempo) {
+        if (tiempo == null || tiempo <= 0) {
+            throw new TiempoInvalidoException(tiempo);
+        }
     }
 }
