@@ -38,4 +38,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problem.setType(URI.create("https://example.com/errors/tiempo-invalido"));
         return problem;
     }
+
+    @ExceptionHandler(CategoriaConRecetasException.class)
+    public ProblemDetail handleCategoriaConRecetas(CategoriaConRecetasException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problem.setTitle("Categoría con recetas asociadas");
+        problem.setDetail(ex.getMessage());
+        problem.setType(URI.create("https://example.com/errors/categoria-con-recetas"));
+        return problem;
+    }
 }
