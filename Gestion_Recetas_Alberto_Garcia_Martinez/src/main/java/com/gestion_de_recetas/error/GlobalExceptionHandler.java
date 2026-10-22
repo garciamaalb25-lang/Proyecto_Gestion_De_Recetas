@@ -29,4 +29,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problem.setType(URI.create("https://example.com/errors/ingrediente-ya-anadido"));
         return problem;
     }
+
+    @ExceptionHandler(TiempoInvalidoException.class)
+    public ProblemDetail handleTiempoInvalido(TiempoInvalidoException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problem.setTitle("Tiempo de preparación inválido");
+        problem.setDetail(ex.getMessage());
+        problem.setType(URI.create("https://example.com/errors/tiempo-invalido"));
+        return problem;
+    }
 }
