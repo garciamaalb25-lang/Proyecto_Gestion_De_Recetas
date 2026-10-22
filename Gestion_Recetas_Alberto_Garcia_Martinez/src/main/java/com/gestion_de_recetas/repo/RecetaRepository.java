@@ -9,5 +9,7 @@ public interface RecetaRepository extends JpaRepository<Receta, Long> {
 
     boolean existsByNombre(String nombre);
 
+    boolean existsByCategoriaId(Long categoriaId);
+
     List<Receta> findByCategoriaId(Long categoriaId);
 }
