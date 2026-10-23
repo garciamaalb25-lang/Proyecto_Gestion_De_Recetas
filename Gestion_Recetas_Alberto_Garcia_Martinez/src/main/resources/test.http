@@ -1,0 +1,140 @@
+
+### GET todos los ingredientes
+GET http://localhost:8080/api/v1/ingredientes
+
+### POST crear ingrediente
+POST http://localhost:8080/api/v1/ingredientes
+Content-Type: application/json
+
+{
+  "nombre": "Mantequilla"
+}
+
+### GET receta con ingredientes (la 1 trae 3)
+GET http://localhost:8080/api/v1/recetas/1
+
+### POST añadir ingrediente a receta (201)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 1
+}
+
+### POST ingrediente ya añadido (409)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 2
+}
+
+### POST ingrediente que no existe (404)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 999
+}
+
+### POST receta que no existe (404)
+POST http://localhost:8080/api/v1/recetas/999/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 1
+}
+
+
+
+### POST receta con tiempo inválido (400)
+POST http://localhost:8080/api/v1/recetas
+Content-Type: application/json
+
+{
+  "nombre": "Receta imposible",
+  "tiempoPreparacionMin": 0,
+  "dificultad": "FACIL",
+  "categoriaId": 1
+}
+
+### PUT receta con tiempo negativo (400)
+PUT http://localhost:8080/api/v1/recetas/1
+Content-Type: application/json
+
+{
+  "nombre": "Tarta de queso",
+  "tiempoPreparacionMin": -5,
+  "dificultad": "MEDIA",
+  "categoriaId": 1
+}
+
+### DELETE categoría con recetas (409)
+DELETE http://localhost:8080/api/v1/categorias/1
+
+
+### POST categoría con nombre vacío (400)
+POST http://localhost:8080/api/v1/categorias
+Content-Type: application/json
+
+{
+  "nombre": "",
+  "descripcion": "Sin nombre"
+}
+
+### POST ingrediente con nombre vacío (400)
+POST http://localhost:8080/api/v1/ingredientes
+Content-Type: application/json
+
+{
+  "nombre": ""
+}
+
+### POST receta con varios errores a la vez (400)
+POST http://localhost:8080/api/v1/recetas
+Content-Type: application/json
+
+{
+  "nombre": "",
+  "dificultad": "FACIL"
+}
+
+### POST receta con nombre duplicado (400)
+POST http://localhost:8080/api/v1/recetas
+Content-Type: application/json
+
+{
+  "nombre": "Tarta de queso",
+  "tiempoPreparacionMin": 60,
+  "dificultad": "MEDIA",
+  "categoriaId": 1
+}
+
+### PUT receta conservando su propio nombre (200)
+PUT http://localhost:8080/api/v1/recetas/1
+Content-Type: application/json
+
+{
+  "nombre": "Tarta de queso",
+  "tiempoPreparacionMin": 65,
+  "dificultad": "MEDIA",
+  "categoriaId": 1
+}
+
+### PUT receta con el nombre de otra receta (400)
+PUT http://localhost:8080/api/v1/recetas/1
+Content-Type: application/json
+
+{
+  "nombre": "Flan de huevo",
+  "tiempoPreparacionMin": 65,
+  "dificultad": "MEDIA",
+  "categoriaId": 1
+}
+
+### POST añadir ingrediente sin ingredienteId (400)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
+Content-Type: application/json
+
+{
+}

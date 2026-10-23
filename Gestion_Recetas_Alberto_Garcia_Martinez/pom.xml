@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.salesianos.dam</groupId>
-	<artifactId>01_PrimerEjemplo</artifactId>
+	<artifactId>gestion_de_recetas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Gestion_Recetas</name>
 	<description>API REST de gestión de recetas, categorías e ingredientes</description>
