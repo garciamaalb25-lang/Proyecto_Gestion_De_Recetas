@@ -5,6 +5,7 @@ import com.gestion_de_recetas.dto.EditRecetaDto;
 import com.gestion_de_recetas.dto.GetRecetaDetailDto;
 import com.gestion_de_recetas.dto.GetRecetaListDto;
 import com.gestion_de_recetas.service.RecetaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +37,14 @@ public class RecetaController {
     }
 
     @PostMapping
-    public ResponseEntity<GetRecetaDetailDto> add(@RequestBody EditRecetaDto dto) {
+    public ResponseEntity<GetRecetaDetailDto> add(@Valid @RequestBody EditRecetaDto dto) {
         return ResponseEntity.status(201)
                 .body(GetRecetaDetailDto.of(recetaService.add(dto)));
     }
 
     @PostMapping("/{recetaId}/ingredientes")
     public ResponseEntity<GetRecetaDetailDto> addIngrediente(@PathVariable Long recetaId,
-                                                             @RequestBody AddIngredienteDto dto) {
+                                                             @Valid @RequestBody AddIngredienteDto dto) {
         return ResponseEntity.status(201)
                 .body(GetRecetaDetailDto.of(
                         recetaService.addIngrediente(recetaId, dto.ingredienteId())));
@@ -51,7 +52,7 @@ public class RecetaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<GetRecetaDetailDto> update(@PathVariable Long id,
-                                                     @RequestBody EditRecetaDto dto) {
+                                                     @Valid @RequestBody EditRecetaDto dto) {
         return ResponseEntity.ok(GetRecetaDetailDto.of(recetaService.update(id, dto)));
     }
 

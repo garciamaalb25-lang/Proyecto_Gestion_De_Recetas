@@ -3,6 +3,7 @@ package com.gestion_de_recetas.controller;
 import com.gestion_de_recetas.dto.EditCategoriaDto;
 import com.gestion_de_recetas.dto.GetCategoriaDto;
 import com.gestion_de_recetas.service.CategoriaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +29,14 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<GetCategoriaDto> add(@RequestBody EditCategoriaDto dto) {
+    public ResponseEntity<GetCategoriaDto> add(@Valid @RequestBody EditCategoriaDto dto) {
         return ResponseEntity.status(201)
                 .body(GetCategoriaDto.of(categoriaService.add(dto)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<GetCategoriaDto> update(@PathVariable Long id,
-                                                  @RequestBody EditCategoriaDto dto) {
+                                                  @Valid @RequestBody EditCategoriaDto dto) {
         return ResponseEntity.ok(GetCategoriaDto.of(categoriaService.update(id, dto)));
     }
 
