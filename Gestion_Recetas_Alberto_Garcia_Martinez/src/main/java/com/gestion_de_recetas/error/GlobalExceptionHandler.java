@@ -1,13 +1,20 @@
 package com.gestion_de_recetas.error;
 
 import com.gestion_de_recetas.error.notfound.EntidadNoEncontradaException;
+import org.jspecify.annotations.Nullable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.net.URI;
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -46,5 +53,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problem.setDetail(ex.getMessage());
         problem.setType(URI.create("https://example.com/errors/categoria-con-recetas"));
         return problem;
+    }
+
+    @Override
+    protected @Nullable ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request) {
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problem.setTitle("Error de validación");
+        problem.setDetail("La petición contiene campos inválidos");
+        problem.setType(URI.create("https://example.com/errors/validacion"));
+
+        List<ApiValidationSubError> subErrors = ex.getAllErrors().stream()
+                .map(ApiValidationSubError::from)
+                .toList();
+        problem.setProperty("invalid-params", subErrors);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
     }
 }
